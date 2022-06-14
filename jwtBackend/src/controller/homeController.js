@@ -6,19 +6,24 @@ const handleHelloWorld = (req, res) => {
 
 const handleUserPage = async (req, res) => {
   let userList = await userService.getUserList();
+  await userService.deleteUser(10);
   return res.render('user.ejs', { userList });
 };
 
-const handleCreateNewUser = (req, res) => {
+const handleCreateNewUser = async (req, res) => {
   let email = req.body.email;
   let password = req.body.password;
   let username = req.body.username;
 
-  // let check = bcrypt.compareSync(password, hashPassword);
+  await userService.createNewUser(email, password, username);
 
-  userService.createNewUser(email, password, username);
-
-  return res.send('handleCreateNewUser');
+  return res.redirect('/user');
 };
 
-module.exports = { handleHelloWorld, handleUserPage, handleCreateNewUser };
+const handleDeleteUser = async (req, res) => {
+  console.log('>>> check ID', req.params.id);
+  await userService.deleteUser(req.params.id);
+  return res.redirect('/user');
+};
+
+module.exports = { handleHelloWorld, handleUserPage, handleCreateNewUser, handleDeleteUser };
