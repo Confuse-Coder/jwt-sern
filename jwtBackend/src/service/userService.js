@@ -27,7 +27,7 @@ const createNewUser = async (email, password, username) => {
 const getUserList = async () => {
   //test relationship
   let newUser = await db.User.findOne({
-    where: { is: 1 },
+    where: { id: 1 },
     attributes: ['id', 'username', 'email'],
     include: { model: db.Group, attributes: ['name', 'description'] },
     raw: true,
@@ -42,6 +42,11 @@ const getUserList = async () => {
 
   console.log('>>>check new user', newUser);
   console.log('>>>check new group', r);
+
+  let users = [];
+  users = await db.User.findAll();
+  return users;
+
   // const connection = await mysql.createConnection({
   //   host: 'localhost',
   //   user: 'root',
