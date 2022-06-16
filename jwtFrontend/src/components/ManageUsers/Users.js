@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
+import './Users.scss';
 
 const Users = (props) => {
   let history = useHistory();
