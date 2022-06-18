@@ -4,6 +4,7 @@ import { fetchAllUsers, deleteUser } from '../../services/userService';
 import ReactPaginate from 'react-paginate';
 import { toast } from 'react-toastify';
 import ModalDelete from './ModalDelete';
+import ModalUser from './ModalUser';
 
 const Users = (props) => {
   const [listUsers, setListUsers] = useState([]);
@@ -43,7 +44,6 @@ const Users = (props) => {
 
   const confirmDeleteUser = async () => {
     let response = await deleteUser(dataModal);
-    console.log('check response', response);
     if (response && response.data.EC === 0) {
       toast.success(response.data.EM);
       await fetchUsers();
@@ -144,6 +144,7 @@ const Users = (props) => {
         handleClose={handleClose}
         dataModal={dataModal}
       />
+      <ModalUser title={'Create New User'} />
     </>
   );
 };
