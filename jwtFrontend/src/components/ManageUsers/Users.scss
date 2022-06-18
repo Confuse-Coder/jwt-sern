@@ -5,3 +5,28 @@
     }
   }
 }
+
+.manage-users-container {
+  i {
+    padding-right: 7px;
+  }
+
+  .actions {
+    .refresh {
+      margin-right: 10px;
+    }
+  }
+
+  .user-body {
+    .edit {
+      color: rgb(103, 252, 247);
+      cursor: pointer;
+      padding-right: 10px;
+    }
+
+    .delete {
+      color: orange;
+      cursor: pointer;
+    }
+  }
+}
