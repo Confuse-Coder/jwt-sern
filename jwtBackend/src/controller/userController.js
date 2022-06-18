@@ -32,7 +32,13 @@ const readFunc = async (req, res) => {
 };
 const createFunc = async (req, res) => {
   try {
-    let users = await userApiService.getAllUsers();
+    let data = await userApiService.createNewUser(req.body);
+
+    return res.status(200).json({
+      EM: data.EM,
+      EC: data.EC,
+      DT: data.DT,
+    });
   } catch (e) {
     console.log(e);
     return res.status(500).json({
