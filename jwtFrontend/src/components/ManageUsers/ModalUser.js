@@ -54,7 +54,9 @@ const ModalUser = (props) => {
       setUserGroups(res.DT);
       if (res.DT && res.DT.length > 0) {
         let groups = res.DT;
+        console.log('>>check before userData', userData);
         setUserData({ ...userData, group: groups[0].id });
+        console.log('>>check after userData', userData);
       }
     } else {
       toast.error(res.EM);
