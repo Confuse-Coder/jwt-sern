@@ -51,7 +51,6 @@ const Role = (props) => {
         description: child.description,
       });
     });
-
     return result;
   };
 
@@ -59,7 +58,6 @@ const Role = (props) => {
     let invalidObj = Object.entries(listChilds).find(([key, child], index) => {
       return child && !child.url;
     });
-
     if (!invalidObj) {
       //call API
       let data = buildDataToPersist();
