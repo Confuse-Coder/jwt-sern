@@ -1,11 +1,11 @@
 import './Login.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import { useEffect, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { loginUser } from '../../services/userService';
 import { UserContext } from '../../context/UserContext';
 const Login = (props) => {
-  const { loginContext } = useContext(UserContext);
+  const { user, loginContext } = useContext(UserContext);
   let history = useHistory();
 
   const [valueLogin, setValueLogin] = useState('');
@@ -69,12 +69,23 @@ const Login = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (user && user.isAuthenticated) {
+      history.push('/');
+    }
+  }, []);
+
   return (
     <div className="login-container">
       <div className="container">
         <div className="row px-3 px-sm-0">
           <div className="content-left col-12 d-none col-sm-7 d-sm-block">
-            <div className="brand">Too Huynh</div>
+            <div className="brand">
+              <Link to="/">
+                {' '}
+                <span title="Return to Homepage">Too Huynh</span>
+              </Link>
+            </div>
             <div className="detail">Nothing is Impossible!</div>
           </div>
           <div className="content-right col-sm-5 col-12 d-flex flex-column gap-2 py-3">
@@ -109,6 +120,12 @@ const Login = (props) => {
               <button className="btn btn-secondary" onClick={() => handleCreateNewAccount()}>
                 Create new account
               </button>
+              <div className="mt-3 return">
+                <Link to="/">
+                  <i className="fa fa-arrow-circle-left"></i>
+                  <span title="Return to Homepage">Return to Homepage</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>

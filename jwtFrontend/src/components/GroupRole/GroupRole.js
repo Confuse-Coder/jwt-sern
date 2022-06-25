@@ -18,6 +18,7 @@ const GroupRole = () => {
 
   const getGroups = async () => {
     let res = await fetchGroup();
+
     if (res && res.EC === 0) {
       setUserGroups(res.DT);
     } else {
@@ -27,6 +28,7 @@ const GroupRole = () => {
 
   const getAllRoles = async () => {
     let data = await fetchAllRoles();
+
     if (data && data.EC === 0) {
       setListRoles(data.DT);
     }
@@ -34,8 +36,10 @@ const GroupRole = () => {
 
   const handleOnChangeGroup = async (value) => {
     setSelectGroup(value);
+
     if (value) {
       let data = await fetchRolesByGroup(value);
+
       if (data && data.EC === 0) {
         let result = buildDataRolesByGroup(data.DT.Roles, listRoles);
         setAssignRolesByGroup(result);
@@ -45,13 +49,15 @@ const GroupRole = () => {
 
   const buildDataRolesByGroup = (groupRoles, allRoles) => {
     let result = [];
+
     if (allRoles && allRoles.length > 0) {
       allRoles.map((role) => {
         let object = {};
         object.url = role.url;
         object.id = role.id;
-        object.description = role.id;
+        object.description = role.description;
         object.isAssigned = false;
+
         if (groupRoles && groupRoles.length > 0) {
           object.isAssigned = groupRoles.some((item) => item.url === object.url);
         }
@@ -64,30 +70,36 @@ const GroupRole = () => {
 
   const handleSelectRole = (value) => {
     const _assignRolesByGroup = _.cloneDeep(assignRolesByGroup);
+
     let foundIndex = _assignRolesByGroup.findIndex((item) => +item.id === +value);
-    console.log(foundIndex);
+
     if (foundIndex > -1) {
       _assignRolesByGroup[foundIndex].isAssigned = !_assignRolesByGroup[foundIndex].isAssigned;
     }
+
     setAssignRolesByGroup(_assignRolesByGroup);
   };
 
   const buildDataToSave = () => {
     let result = {};
     const _assignRolesByGroup = _.cloneDeep(assignRolesByGroup);
-    result.groupId = selectGroup;
+
     let groupRolesFilter = _assignRolesByGroup.filter((item) => item.isAssigned === true);
     let finalGroupRoles = groupRolesFilter.map((item) => {
       let data = { groupId: +selectGroup, roleId: +item.id };
       return data;
     });
+
+    result.groupId = selectGroup;
     result.groupRoles = finalGroupRoles;
+    console.log('check groupId vs RoleId', result);
     return result;
   };
 
   const handleSave = async () => {
     let data = buildDataToSave();
     let res = await assignRoleToGroup(data);
+
     if (res && res.EC === 0) {
       toast.success(res.EM);
     } else {

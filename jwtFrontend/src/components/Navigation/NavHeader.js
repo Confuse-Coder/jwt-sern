@@ -28,14 +28,24 @@ const NavHeader = (props) => {
     }
   };
 
-  if ((user && user.isAuthenticated === true) || location.pathname === '/') {
+  if (
+    (user && user.isAuthenticated === true) ||
+    location.pathname === '/' ||
+    location.pathname === '/about'
+  ) {
     return (
       <>
         <div className="nav-header">
           <Navbar bg="header" expand="lg">
             <Container>
               <Navbar.Brand href="#home">
-                <img src={logo} width="30" height="30" className="d-inline-block align-top" />
+                <img
+                  src={logo}
+                  width="30"
+                  height="50"
+                  className="d-inline-block align-top"
+                  alt="React Logo"
+                />
                 <span className="brand-name">React</span>
               </Navbar.Brand>
               <Navbar.Toggle aria-controls="basic-navbar-nav" />

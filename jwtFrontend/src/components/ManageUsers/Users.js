@@ -20,15 +20,24 @@ const Users = (props) => {
   const [isShowModalUser, setIsShowModalUser] = useState(false);
   const [actionModalUser, setActionModalUser] = useState('CREATE');
   const [dataModalUser, setDataModalUser] = useState({});
+
   useEffect(() => {
     fetchUsers();
   }, [currentPage]);
+
   const fetchUsers = async () => {
     let response = await fetchAllUsers(currentPage, currentLimit);
     console.log('>>check response', response);
     if (response && response.EC === 0) {
       setTotalPages(response.DT.totalPages);
-      setListUsers(response.DT.users);
+
+      if (response.DT.totalPages > 0 && response.DT.users.length === 0) {
+        setCurrentPage(+response.DT.totalPages);
+        await fetchAllUsers(+response.DT.totalPages, currentLimit);
+      }
+      if (response.DT.totalPages > 0 && response.DT.users.length > 0) {
+        setListUsers(response.DT.users);
+      }
     }
   };
 
@@ -171,6 +180,7 @@ const Users = (props) => {
                 containerClassName="pagination"
                 activeClassName="active"
                 renderOnZeroPageCount={null}
+                forcePage={+currentPage - 1}
               />
             </div>
           )}

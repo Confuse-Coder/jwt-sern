@@ -1,11 +1,12 @@
 import './Register.scss';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
 import { toast } from 'react-toastify';
 import { registerNewUser } from '../../services/userService';
-
+import { UserContext } from '../../context/UserContext';
 const Register = (props) => {
+  const { user } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [username, setUsername] = useState('');
@@ -24,11 +25,11 @@ const Register = (props) => {
     history.push('/login');
   };
 
-  // useEffect(() => {
-  //   axios.get('https://reqres.in/api/users?page=2').then((data) => {
-  //     console.log('>>> check data axios', data);
-  //   });
-  // });
+  useEffect(() => {
+    if (user && user.isAuthenticated) {
+      history.push('/');
+    }
+  }, []);
 
   const isValidInputs = () => {
     setObjCheckValid(defaultValidInput);
@@ -82,7 +83,12 @@ const Register = (props) => {
       <div className="container">
         <div className="row px-3 px-sm-0">
           <div className="content-left col-12 d-none col-sm-7 d-sm-block">
-            <div className="brand">Too Huynh</div>
+            <div className="brand">
+              <Link to="/">
+                {' '}
+                <span title="Return to Homepage">Too Huynh</span>
+              </Link>
+            </div>
             <div className="detail">Nothing is Impossible!</div>
           </div>
           <div className="content-right col-sm-5 col-12 d-flex flex-column gap-2 py-3">
@@ -151,6 +157,12 @@ const Register = (props) => {
               <button type="button" className="btn btn-secondary" onClick={() => handleLogin()}>
                 Already've an account. Login
               </button>
+              <div className="mt-3 return">
+                <Link to="/">
+                  <i className="fa fa-arrow-circle-left"></i>
+                  <span title="Return to Homepage">Return to Homepage</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
